@@ -12,6 +12,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/login/',obtain_auth_token),
     path('',TemplateView.as_view(template_name='index.html')),
+    path('api/',include('shop.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
