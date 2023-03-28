@@ -136,7 +136,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS: True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
 
 CORS_URLS_REGEX = r"^/api/.*$"
 

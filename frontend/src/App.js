@@ -1,11 +1,18 @@
 
 import './App.css';
+import HomePage from './components/HomePage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from './components/Header';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World Django ... From React</h1>
-    </div>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+      </Routes>
+
+    </Router>
   );
 }
 
