@@ -19,6 +19,20 @@ const HomePage = () => {
         getData()
     }, [])
 
+    const nextProducts = async () => {
+        await axios({
+            method: 'get',
+            url: products?.next
+        }).then(res => setProducts(res.data))
+    }
+
+    const prevProducts = async () => {
+        await axios({
+            method: 'get',
+            url: products?.previous
+        }).then(res => setProducts(res.data))
+    }
+
     return (
         <>
 
@@ -31,13 +45,28 @@ const HomePage = () => {
                     {
                         products?.results.map((product, i) => {
                             return (
-                                <div className="col-sm-6 col-md-4 col-lg-3 g-4">
+                                <div key={i} className="col-sm-6 col-md-4 col-lg-3 g-4">
                                     <Product product={product} />
                                 </div>
                             )
                         })
                     }
 
+                </div>
+
+                <div className="homepage__pagination d-flex justify-content-center my-4">
+                    <div className="me-2">
+                        {
+                            products?.previous !== null ? (<button onClick={prevProducts} className="btn btn-danger">Previous</button>) : (<button className="btn btn-danger" disabled>Previous</button>)
+                        }
+
+                    </div>
+                    <div className="">
+                        {
+                            products?.next !== null ? (<button onClick={nextProducts} className="btn btn-success">Next</button>) : (<button className="btn btn-success" disabled>Next</button>)
+                        }
+
+                    </div>
                 </div>
 
             </div>

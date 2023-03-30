@@ -1,14 +1,14 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom';
+import { domain } from '../env';
 
-const Product = ({ product }) => {
-    // console.log(product);
+const ProductWithDomain = ({ product }) => {
     const { id, image, title, price, old_price, description } = product;
     return (
         <>
             <div className="card">
                 <NavLink to={`/product/${id}`}>
-                    <img src={image} alt="" className="card-img-top" />
+                    <img src={`${domain}${image}`} alt="" className="card-img-top" />
                 </NavLink>
                 <div className="card-body">
                     <NavLink to={`/product/${id}`}><h5 className="card-title product_title">{title}</h5></NavLink>
@@ -20,5 +20,4 @@ const Product = ({ product }) => {
         </>
     )
 }
-
-export default Product
+export default ProductWithDomain
