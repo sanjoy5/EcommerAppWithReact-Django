@@ -5,6 +5,9 @@ import Cookies from 'js-cookie';
 export const domain = "http://127.0.0.1:8000";
 // export const domain = "";
 
+export const token = JSON.parse(localStorage.getItem('token'))
+
+
 /*
     window.localStorage.setItem('myCat', 'Tom');
     window.localStorage.removeItem('myCat');

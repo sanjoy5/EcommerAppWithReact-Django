@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import generics,mixins,viewsets
+from rest_framework import generics,mixins,viewsets,views
 from .serializers import *
 from .models import *
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
 class ProductView(generics.GenericAPIView,mixins.ListModelMixin,mixins.RetrieveModelMixin):
-    queryset = Product.objects.all().order_by('?')
+    queryset = Product.objects.all().order_by('-id')
     serializer_class = ProductSerializer
     lookup_field = 'id'
 
@@ -35,3 +37,17 @@ class CategoryView(viewsets.ViewSet):
         all_data.append(serializer_data)
         return Response(all_data)
 
+
+class ProfileView(views.APIView):
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated,]
+
+    def get(self,request):
+        try:
+            queryset = Profile.objects.get(prouser=request.user)
+            serializers = ProfileSerializer(queryset)
+            res_msg = {"error":False,"data":serializers.data}
+        except:
+            res_msg = {"error":True,"data":"Something is wrong !!!"}
+        
+        return Response(res_msg)
