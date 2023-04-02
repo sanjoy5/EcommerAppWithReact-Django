@@ -8,8 +8,33 @@ import CategoryProducts from './components/CategoryProducts';
 import LoginPage from './components/LoginPage'
 import RegisterPage from './components/RegisterPage'
 import ProfilePage from './components/ProfilePage'
+import { useEffect } from 'react';
+import axios from 'axios';
+import { domain, userToken, header } from './env';
+import { useGlobalState } from './state/provider'
 
 function App() {
+
+  const [{ profile }, dispatch] = useGlobalState()
+  useEffect(() => {
+    if (userToken !== null) {
+      const getData = async () => {
+        await axios({
+          method: 'get',
+          url: `${domain}/api/profile/`,
+          headers: header
+        }).then(res => {
+          dispatch({
+            type: "ADD_PROFILE",
+            profile: res.data.data
+          })
+        })
+      }
+      getData()
+    }
+
+  }, [])
+
   return (
     <Router>
       <Header />

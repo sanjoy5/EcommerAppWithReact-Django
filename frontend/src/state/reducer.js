@@ -8,7 +8,7 @@ const reducer = (action, state) => {
         case "ADD_PROFILE":
             return {
                 ...state,
-                profile: action.payload
+                profile: action.profile
             }
 
         default:
