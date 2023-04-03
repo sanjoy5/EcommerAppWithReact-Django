@@ -15,7 +15,7 @@ import { useGlobalState } from './state/provider'
 
 function App() {
 
-  const [{ profile }, dispatch] = useGlobalState()
+  const [{ profile, pagereload }, dispatch] = useGlobalState()
   useEffect(() => {
     if (userToken !== null) {
       const getData = async () => {
@@ -33,7 +33,7 @@ function App() {
       getData()
     }
 
-  }, [])
+  }, [pagereload])
 
   return (
     <Router>

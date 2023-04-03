@@ -5,6 +5,7 @@ from .serializers import *
 from .models import *
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -50,4 +51,40 @@ class ProfileView(views.APIView):
         except:
             res_msg = {"error":True,"data":"Something is wrong !!!"}
         
+        return Response(res_msg)
+
+class UpdateUserView(views.APIView):
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated,]
+
+    def post(self,request):
+        try:
+            user = request.user
+            data = request.data
+            user_obj = User.objects.get(username=user)
+            user_obj.first_name = data['first_name']
+            user_obj.last_name = data['last_name']
+            user_obj.email = data['email']
+            user_obj.save()
+            res_msg = {"error":False,"message":"User data is updated."}
+        except:
+            res_msg = {"error":True,"message":"Something is wrong!!! User data is not updated."}      
+        return Response(res_msg)
+    
+
+class UpdateUserImageView(views.APIView):
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated,]
+
+    def post(self,request):
+        try:
+            user = request.user
+            query = Profile.objects.get(prouser=user)
+            data = request.data
+            serializers = ProfileSerializer(query,data=data,context={"request":request})
+            serializers.is_valid()
+            serializers.save()
+            res_msg = {"error":False,"message":"User Image is updated."}
+        except:
+            res_msg = {"error":True,"message":"Something is wrong!!! User image is not updated."}      
         return Response(res_msg)

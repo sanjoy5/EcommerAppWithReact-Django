@@ -1,6 +1,7 @@
 
 export const initilastate = {
     profile: null,
+    pagereload: null
 }
 
 const reducer = (action, state) => {
@@ -9,6 +10,11 @@ const reducer = (action, state) => {
             return {
                 ...state,
                 profile: action.profile
+            }
+        case "PAGE_RELOAD":
+            return {
+                ...state,
+                pagereload: action.pagereload
             }
 
         default:
