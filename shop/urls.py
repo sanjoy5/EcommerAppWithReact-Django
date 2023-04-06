@@ -3,7 +3,9 @@ from .views import *
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'category', CategoryView, basename='category')
+router.register('category', CategoryView, basename='category')
+router.register('cart', MyCart, basename='cart')
+router.register('oldorders', Oldorders, basename='oldorders')
 
 urlpatterns = [
     path('',include(router.urls)),

@@ -12,10 +12,16 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { domain, userToken, header } from './env';
 import { useGlobalState } from './state/provider'
+import Cart from './components/Cart';
+import OldOrders from './components/OldOrders';
+import Order from './components/Order';
+import OrderDetails from './components/OrderDetails';
 
 function App() {
 
-  const [{ profile, pagereload }, dispatch] = useGlobalState()
+  const [{ profile, pagereload, cart_complete, cart_uncomplete }, dispatch] = useGlobalState()
+
+
   useEffect(() => {
     if (userToken !== null) {
       const getData = async () => {
@@ -35,6 +41,38 @@ function App() {
 
   }, [pagereload])
 
+
+  useEffect(() => {
+    const getCartData = async () => {
+      await axios({
+        method: 'get',
+        url: `${domain}/api/cart/`,
+        headers: header
+      }).then(res => {
+        // console.log(res.data, ': cart product');
+        {
+          const all_data = []
+          res?.data.map(data => {
+            if (data.complete) {
+              all_data.push(data)
+              dispatch({
+                type: 'CART_COMPLETE',
+                cart_complete: all_data
+              })
+            } else {
+              dispatch({
+                type: 'CART_UNCOMPLETE',
+                cart_uncomplete: data
+              })
+            }
+          })
+        }
+      })
+    }
+    getCartData()
+  }, [])
+
+
   return (
     <Router>
       <Header />
@@ -42,9 +80,25 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/product/:id' element={<ProductsDetails />} />
         <Route path='/category/:id' element={<CategoryProducts />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
+
+        {
+          profile !== null ? (
+            <>
+              <Route path='/profile' element={<ProfilePage />} />
+              <Route path='/cart' element={<Cart />} />
+              <Route path='/order' element={<Order />} />
+              <Route path='/oldorders' element={<OldOrders />} />
+              <Route path='/orderdetails/:id' element={<OrderDetails />} />
+            </>
+          ) : (
+            <>
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/login' element={<LoginPage />} />
+            </>
+          )
+        }
+
+
         <Route path='*' element={<HomePage />} />
       </Routes>
 

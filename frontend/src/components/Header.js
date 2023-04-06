@@ -1,13 +1,20 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Nav, Container, Navbar, NavDropdown } from 'react-bootstrap'
-import { Link, NavLink } from 'react-router-dom'
+import { FiShoppingCart } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
 import { domain } from '../env'
 import { useGlobalState } from '../state/provider'
 
 const Header = () => {
 
-    const [{ profile }, { }] = useGlobalState()
+    const [{ profile, cart_uncomplete }, { }] = useGlobalState()
+
+    let cart_product_length;
+    if (cart_uncomplete !== null) {
+        cart_product_length = cart_uncomplete?.cartproducts?.length
+    } else {
+        cart_product_length = 0
+    }
 
     const [categories, setCategories] = useState(null)
 
@@ -44,7 +51,7 @@ const Header = () => {
                                 </ul>
                             </li>
                         </ul>
-                        <ul className="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+                        <ul className="navbar-nav mb-2 mb-lg-0 d-flex align-items-start align-items-md-center">
 
                             {
                                 profile !== null ?
@@ -62,6 +69,8 @@ const Header = () => {
                                                 }
 
                                             </Link>
+
+
                                             <ul className="dropdown-menu">
 
                                                 <li className="nav-item">
@@ -72,6 +81,15 @@ const Header = () => {
                                                 </li>
 
                                             </ul>
+                                        </li>
+
+                                        <li className="nav-item  position-relative">
+                                            <Link className="nav-link text-white" to="/cart">
+                                                <FiShoppingCart className="fs-4" /> <span className='position-absolute top-0 px-2 py-1 bg-danger rounded-circle
+                                                 lh-1'>
+                                                    {cart_product_length}
+                                                </span>
+                                            </Link>
                                         </li>
 
                                     </> :

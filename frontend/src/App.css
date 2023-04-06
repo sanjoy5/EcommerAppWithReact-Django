@@ -25,3 +25,44 @@ a:hover {
 .menu .nav-link {
   color: white;
 }
+
+.myshadow {
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.myshadow:hover {
+  background-color: transparent !important;
+}
+
+.my-width {
+  width: 50%;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar {
+  height: 10px;
+
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0D6EFD;
+}
+
+@media only screen and (max-width: 600px) {
+  .my-width {
+    width: 100%;
+  }
+
+  .my-table {
+    overflow-x: scroll;
+  }
+
+}

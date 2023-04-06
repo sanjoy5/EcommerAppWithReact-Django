@@ -88,3 +88,49 @@ class UpdateUserImageView(views.APIView):
         except:
             res_msg = {"error":True,"message":"Something is wrong!!! User image is not updated."}      
         return Response(res_msg)
+    
+
+class MyCart(viewsets.ViewSet):
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated,]
+
+    def list(self,request):
+        query = Cart.objects.filter(customer=request.user.profile)
+        serializers = CartSerializer(query,many=True)
+        all_data = []
+        for cart in serializers.data:
+            cart_product = CartProduct.objects.filter(cart=cart['id'])
+            cart_product_serializer = CartProductSerializer(cart_product,many=True)
+            cart['cartproducts'] = cart_product_serializer.data
+            all_data.append(cart)
+        return Response(all_data)
+    
+class Oldorders(viewsets.ViewSet):
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated,]
+
+    def list(self,request):
+        queryset = Order.objects.filter(cart__customer=request.user.profile)
+        serializers = OrderSerializer(queryset,many=True)
+        all_data = []
+        for order in serializers.data:
+            cart_product = CartProduct.objects.filter(cart_id=order['cart']['id'])
+            cart_product_serializer = CartProductSerializer(cart_product,many=True)
+            order['cartproducts'] = cart_product_serializer.data
+            all_data.append(order)
+        return Response(all_data)
+
+    def retrieve(self,request,pk=None):
+        try:
+            queryset = Order.objects.get(id=pk)
+            serializers = OrderSerializer(queryset)
+            data =  serializers.data
+            all_data = []
+            cartproduct = CartProduct.objects.filter(cart_id=data['cart']['id'])
+            cartproduct_serializer = CartProductSerializer(cartproduct,many=True)
+            data['cartproducts'] = cartproduct_serializer.data
+            all_data.append(data)
+            res_msg = {"error":False,"data":all_data}
+        except:
+            res_msg = {"error":True,"message":"Something is wrong!!"}      
+        return Response(res_msg)

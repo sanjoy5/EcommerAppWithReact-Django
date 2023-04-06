@@ -57,7 +57,7 @@ const ProfilePage = () => {
                     <p className='m-0 fs-4 p-0 text-primary'>{profile?.prouser.email}</p>
                 </div>
 
-                <div className="w-50 mx-auto my-4">
+                <div className="my-width mx-md-auto my-4">
                     <div className="form-group mb-2">
                         <label htmlFor="image">Upload Image</label>
                         <input onChange={(e) => setImage(e.target.files[0])} type="file" className="form-control" id="image" />
