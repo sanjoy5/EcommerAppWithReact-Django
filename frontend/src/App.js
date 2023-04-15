@@ -19,7 +19,11 @@ import OrderDetails from './components/OrderDetails';
 
 function App() {
 
-  const [{ profile, pagereload, cart_complete, cart_uncomplete }, dispatch] = useGlobalState()
+  const [{ profile, pagereload, cart_uncomplete, cart_complete }, dispatch] = useGlobalState()
+
+  // console.log('cart_uncomplete: ', cart_uncomplete);
+  // console.log('cart_complete: ', cart_complete);
+  // console.log('Profile @@#@#@45 ', profile);
 
 
   useEffect(() => {
@@ -30,6 +34,7 @@ function App() {
           url: `${domain}/api/profile/`,
           headers: header
         }).then(res => {
+          // console.log('####', res.data.data);
           dispatch({
             type: "ADD_PROFILE",
             profile: res.data.data
@@ -49,28 +54,29 @@ function App() {
         url: `${domain}/api/cart/`,
         headers: header
       }).then(res => {
-        // console.log(res.data, ': cart product');
+        // console.log(res.data, ': cart product@@');
         {
           const all_data = []
           res?.data.map(data => {
             if (data.complete) {
               all_data.push(data)
               dispatch({
-                type: 'CART_COMPLETE',
+                type: 'CARTPRODUCT_COMPLETE',
                 cart_complete: all_data
               })
             } else {
               dispatch({
-                type: 'CART_UNCOMPLETE',
+                type: 'CARTPRODUCT_UNCOMPLETE',
                 cart_uncomplete: data
               })
             }
           })
         }
       })
+
     }
     getCartData()
-  }, [])
+  }, [pagereload])
 
 
   return (
@@ -83,7 +89,9 @@ function App() {
 
         {
           profile !== null ? (
+
             <>
+
               <Route path='/profile' element={<ProfilePage />} />
               <Route path='/cart' element={<Cart />} />
               <Route path='/order' element={<Order />} />

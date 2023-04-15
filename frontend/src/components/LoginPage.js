@@ -2,10 +2,12 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { domain } from '../env'
 
+
 const LoginPage = () => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+
 
 
     const loginRequest = async () => {
@@ -18,6 +20,7 @@ const LoginPage = () => {
             }
         }).then(response => {
             localStorage.setItem('token', JSON.stringify(response.data['token']))
+            window.location.href = "/"
         }).catch(_ => {
             alert("Username or Password is Invalid...")
         })

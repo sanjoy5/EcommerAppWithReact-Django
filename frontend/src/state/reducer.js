@@ -6,7 +6,7 @@ export const initilastate = {
     cart_complete: null
 }
 
-const reducer = (action, state) => {
+const reducer = (state, action) => {
     switch (action.type) {
         case "ADD_PROFILE":
             return {
@@ -18,12 +18,13 @@ const reducer = (action, state) => {
                 ...state,
                 pagereload: action.pagereload
             }
-        case "CART_UNCOMPLETE":
+
+        case "CARTPRODUCT_UNCOMPLETE":
             return {
                 ...state,
                 cart_uncomplete: action.cart_uncomplete
             }
-        case "CART_COMPLETE":
+        case "CARTPRODUCT_COMPLETE":
             return {
                 ...state,
                 cart_complete: action.cart_complete

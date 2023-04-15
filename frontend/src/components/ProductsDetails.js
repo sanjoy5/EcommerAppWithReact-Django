@@ -1,10 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { domain } from '../env'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { domain, header } from '../env'
 import ProductWithDomain from './ProductWithDomain'
+import { useGlobalState } from '../state/provider'
 
 const ProductsDetails = () => {
+
+    const [{ profile }, dispatch] = useGlobalState()
+    const navigate = useNavigate()
+
     const { id } = useParams()
     const [product, setProdcut] = useState(null)
     const [categoryProducts, setCategoryProducts] = useState(null)
@@ -34,6 +39,27 @@ const ProductsDetails = () => {
 
 
 
+
+    const addtocart = async (id) => {
+        profile !== null ?
+            await axios({
+                method: 'post',
+                url: `${domain}/api/addtocart/`,
+                headers: header,
+                data: { "id": id }
+            }).then(response => {
+                // console.log(response.data, '$$$ add to Cart $$$');
+                dispatch({
+                    type: "PAGE_RELOAD",
+                    pagereload: response.data
+                })
+            })
+            :
+            navigate('/login')
+
+    }
+
+
     return (
         <div className='container my-5'>
             <div className="row">
@@ -57,7 +83,7 @@ const ProductsDetails = () => {
 
                                 <div className="d-flex align-items-center my-2">
                                     <input type="number" style={{ width: '80px' }} min="1" className="py-2 outline-none px-3" />
-                                    <button className="btn btn-primary btn-lg ms-2">Add to Cart</button>
+                                    <button onClick={() => addtocart(product.id)} className="btn btn-primary btn-lg ms-2">Add to Cart</button>
                                 </div>
 
                                 <h2 className="fs-4 fw-semibold mt-3 mb-2">Product Details</h2>

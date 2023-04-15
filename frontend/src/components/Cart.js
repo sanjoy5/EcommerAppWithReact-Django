@@ -1,27 +1,89 @@
 import React from 'react'
 import { useGlobalState } from '../state/provider'
-import { domain } from '../env';
+import { domain, header } from '../env';
 import { FaTrashAlt } from 'react-icons/fa'
 import { BiUpArrow, BiDownArrow } from 'react-icons/bi'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Cart = () => {
-    const [{ cart_uncomplete }, { }] = useGlobalState()
-    console.log('cart Uncomplete : ', cart_uncomplete);
+    const [{ cart_uncomplete, profile }, dispatch] = useGlobalState()
+    // console.log('cart Uncomplete : ', cart_uncomplete);
 
-    let cart_product_length;
-    if (cart_uncomplete !== null) {
-        cart_product_length = cart_uncomplete?.cartproducts?.length
-    } else {
-        cart_product_length = 0
+    const navigate = useNavigate()
+
+    let cart_product_length = 0;
+    if (cart_uncomplete) {
+        if (cart_uncomplete !== null) {
+            cart_product_length = cart_uncomplete?.cartproducts?.length
+        } else {
+            cart_product_length = 0
+        }
     }
+
+
+    const addcartqty = async (id) => {
+        profile !== null ?
+            await axios({
+                method: 'post',
+                url: `${domain}/api/addcartqty/`,
+                headers: header,
+                data: { "id": id }
+            }).then(response => {
+                // console.log(response.data, '$$$ add to Cart $$$');
+                dispatch({
+                    type: "PAGE_RELOAD",
+                    pagereload: response.data
+                })
+            })
+            :
+            navigate('/login')
+    }
+
+    const removecartqty = async (id) => {
+        profile !== null ?
+            await axios({
+                method: 'post',
+                url: `${domain}/api/removecartqty/`,
+                headers: header,
+                data: { "id": id }
+            }).then(response => {
+                // console.log(response.data, '$$$ add to Cart $$$');
+                dispatch({
+                    type: "PAGE_RELOAD",
+                    pagereload: response.data
+                })
+            })
+            :
+            navigate('/login')
+    }
+
+
+    const removecartproduct = async (id) => {
+        profile !== null ?
+            await axios({
+                method: 'post',
+                url: `${domain}/api/removecartproduct/`,
+                headers: header,
+                data: { "id": id }
+            }).then(response => {
+                // console.log(response.data, '$$$ add to Cart $$$');
+                dispatch({
+                    type: "PAGE_RELOAD",
+                    pagereload: response.data
+                })
+            })
+            :
+            navigate('/login')
+    }
+
 
     return (
         <div className='container my-5'>
 
-            <div className="my-4 d-flex align-items-center justify-content-between">
+            <div className="my-4 d-flex flex-wrap flex-md-row align-items-center justify-content-between gap-2">
                 <div>
-                    <Link to="/" className='btn btn-info ms-2 text-white'>Continue Shopping</Link>
+                    <Link to="/" className='btn btn-info m-2 text-white'>Continue Shopping</Link>
                     <Link to="/oldorders" className='btn btn-success ms-2 text-white'>Old Orders</Link>
                 </div>
 
@@ -57,7 +119,7 @@ const Cart = () => {
                                             {
                                                 cart_uncomplete?.cartproducts.map((item, i) => {
                                                     return (
-                                                        <tr className=''>
+                                                        <tr key={i} className=''>
                                                             <td>{i + 1}</td>
                                                             <td>
                                                                 <Link to={`/product/${item.product[0].id}`}>
@@ -68,16 +130,16 @@ const Cart = () => {
                                                             <td className='align-middle'>{item.price}</td>
                                                             <td className='align-middle'>
                                                                 <div className="flex flex-row align-items-center justify-content-center">
-                                                                    <BiUpArrow className='text-success cursor-pointer' />
+                                                                    <BiUpArrow onClick={() => addcartqty(item.id)} className='text-success cursor-pointer' />
                                                                     <span className="mx-2 fw-bolder">{item.quantity}</span>
-                                                                    <BiDownArrow className='text-warning cursor-pointer' />
+                                                                    <BiDownArrow onClick={() => removecartqty(item.id)} className='text-warning cursor-pointer' />
                                                                 </div>
 
                                                             </td>
                                                             <td className='align-middle'>{item.subtotal}</td>
                                                             <td className='align-middle'>
 
-                                                                <FaTrashAlt className='text-danger cursor-pointer' />
+                                                                <FaTrashAlt onClick={() => removecartproduct(item.id)} className='text-danger cursor-pointer' />
 
                                                             </td>
                                                         </tr>
@@ -106,7 +168,7 @@ const Cart = () => {
 
                 ) : (
                     <div className="myshadow bg-white p-5">
-                        <h2 text-dark fs-3 fw-bolder text-center>There is no porduct in your cart...</h2>
+                        <h2 className='text-dark fs-3 fw-bolder text-center'>There is no porduct in your cart...</h2>
                     </div>
                 )
             }

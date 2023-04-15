@@ -7,14 +7,23 @@ import { useGlobalState } from '../state/provider'
 
 const Header = () => {
 
-    const [{ profile, cart_uncomplete }, { }] = useGlobalState()
 
-    let cart_product_length;
-    if (cart_uncomplete !== null) {
-        cart_product_length = cart_uncomplete?.cartproducts?.length
-    } else {
-        cart_product_length = 0
+    const [{ profile, cart_uncomplete }, dispatch] = useGlobalState()
+    // console.log('Profile ', profile);
+    // console.log('cart_uncomplete ', cart_uncomplete);
+
+
+
+    let cart_product_length = 0;
+    if (cart_uncomplete) {
+        if (cart_uncomplete !== null) {
+            cart_product_length = cart_uncomplete?.cartproducts?.length
+        } else {
+            cart_product_length = 0
+        }
     }
+
+
 
     const [categories, setCategories] = useState(null)
 
@@ -27,6 +36,16 @@ const Header = () => {
         }
         getCategories()
     }, [])
+
+
+    const logout = () => {
+        localStorage.removeItem('token')
+        dispatch({
+            type: "ADD_PROFILE",
+            profile: null
+        })
+        window.location.href = "/login"
+    }
 
     return (
         <>
@@ -77,7 +96,7 @@ const Header = () => {
                                                     <Link className="nav-link" to="/profile">Profile</Link>
                                                 </li>
                                                 <li className="nav-item">
-                                                    <Link className="nav-link" to="/logout">Logout</Link>
+                                                    <Link onClick={logout} className="nav-link">Logout</Link>
                                                 </li>
 
                                             </ul>
