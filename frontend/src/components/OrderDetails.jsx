@@ -45,7 +45,7 @@ const OrderDetails = () => {
                                     <td>{orderDetails.date}</td>
                                     <td>{orderDetails.email}</td>
                                     <td>{orderDetails.phone}</td>
-                                    <td>{orderDetails.total}</td>
+                                    <td>৳{orderDetails.total}</td>
                                     <td>{orderDetails.cartproducts.length}</td>
                                     <td>{orderDetails.discount}%</td>
                                 </>
@@ -75,12 +75,12 @@ const OrderDetails = () => {
                                         <td>{i + 1}</td>
                                         <td className=''>
                                             <Link to={`/product/${pd.product[0].id}`} className='d-flex cursor-pointer'>
-                                                <img src={`${domain}${pd.product[0].image}`} height={60} alt="" /> <p className='ms-2 fw-medium fs-5 text-dark'>{pd.product[0].title}</p>
+                                                <img src={`${domain}${pd.product[0].image}`} height={60} alt="" /> <p className='ms-3 fw-medium fs-5 text-dark'>{pd.product[0].title.slice(0, 30)}...</p>
                                             </Link>
                                         </td>
-                                        <td className=''>{pd.price}</td>
+                                        <td className=''>৳{pd.price}</td>
                                         <td>{pd.quantity}</td>
-                                        <td>{pd.subtotal}</td>
+                                        <td>৳{pd.subtotal}</td>
                                     </tr>
                                 )
                             })

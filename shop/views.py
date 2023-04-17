@@ -135,6 +135,42 @@ class Oldorders(viewsets.ViewSet):
             res_msg = {"error":True,"message":"Something is wrong!!"}      
         return Response(res_msg)
     
+    def create(self,request):
+        try:
+            data = request.data
+            cart_id = data['cartid']
+            address = data['address']
+            phone = data['phone']
+            email = data['email']
+
+            cart_obj = Cart.objects.get(id=cart_id)
+            cart_obj.complete = True
+            cart_obj.save()
+            Order.objects.create(
+                cart = cart_obj,
+                address = address,
+                phone=phone,
+                email=email,
+                total = cart_obj.total,
+                discount = 3,
+            )
+            res_msg = {"error":False,"message":"Your Order is completed..."}
+        except:
+            res_msg = {"error":True,"data":'Something is wrong. Order is not complete...'}
+
+        return Response(res_msg)
+    
+    def destroy(self,request,pk=None):
+        try:
+            order_obj = Order.objects.get(id=pk)
+            cart_obj = Cart.objects.get(id = order_obj.cart.id)
+            order_obj.delete()
+            cart_obj.delete()
+            res_msg = {"error":False,"message":"Your Order is Deleted..."}
+        except:
+            res_msg = {"error":True,"message":"Your Order is not Deleted..."}
+
+        return Response(res_msg)
 
 
 class addToCart(views.APIView):
@@ -241,3 +277,19 @@ class RemoveCartProduct(views.APIView):
         cart_product = CartProduct.objects.get(id=request.data['id'])
         cart_product.delete()
         return Response({"message":"CartProduct is Deleted"})
+    
+
+class DeleteCart(views.APIView):
+    authentication_classes = [TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
+
+    def post(self,request):
+        try:
+            cart_id = request.data['id']
+            cart_obj = Cart.objects.get(id=cart_id)
+            cart_obj.delete()
+            response_mesage = {'error':False,'message':"Cart is Deleted Successfully","cartId":cart_id}
+        except:
+            response_mesage = {'error':True,'message':"Something is wrond. Cart is not Deleted"}
+        return Response(response_mesage)
+

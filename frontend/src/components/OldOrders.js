@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 const OldOrders = () => {
 
     const [orders, setOrders] = useState(null)
+    const [reload, setReload] = useState(null)
 
     useEffect(() => {
         const getOrders = async () => {
@@ -15,13 +16,22 @@ const OldOrders = () => {
                 headers: header
             }).then(res => {
                 setOrders(res.data)
-                // console.log('Old Orders : ', res.data);
-
             })
         }
         getOrders()
-    }, [])
+    }, [reload])
 
+
+    const deleteOldOrder = async (id) => {
+        await axios({
+            method: 'delete',
+            url: `${domain}/api/oldorders/${id}/`,
+            headers: header
+        }).then(res => {
+            setReload(res.data)
+
+        })
+    }
 
     return (
         <div className='container my-5'>
@@ -57,11 +67,11 @@ const OldOrders = () => {
                                                     <tr key={i}>
                                                         <td>{i + 1}</td>
                                                         <td>{order.date}</td>
-                                                        <td>${order.total}</td>
+                                                        <td>৳{order.total}</td>
                                                         <td>{order?.cartproducts.length}</td>
                                                         <td>{order?.order_status}</td>
                                                         <td><Link className='btn btn-primary' to={`/orderdetails/${order?.id}`}>Order Details</Link></td>
-                                                        <td><Link className='btn btn-danger' to=''>Delete Order</Link></td>
+                                                        <td><button onClick={() => deleteOldOrder(order?.id)} className='btn btn-danger'>Delete Order</button></td>
                                                     </tr>
                                                 )
                                             })

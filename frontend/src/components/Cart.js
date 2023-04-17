@@ -78,6 +78,30 @@ const Cart = () => {
     }
 
 
+    const handleDeleteCart = async (id) => {
+        profile !== null ?
+            await axios({
+                method: 'post',
+                url: `${domain}/api/deletecart/`,
+                headers: header,
+                data: { "id": id }
+            }).then(res => {
+
+                dispatch({
+                    type: 'PAGE_RELOAD',
+                    pagereload: res.data
+                })
+                dispatch({
+                    type: 'CARTPRODUCT_UNCOMPLETE',
+                    cart_uncomplete: null
+                })
+                alert("Your all cart items is Deleted")
+                navigate('/')
+            }) :
+            navigate('/login')
+    }
+
+
     return (
         <div className='container my-5'>
 
@@ -89,7 +113,7 @@ const Cart = () => {
 
                 {
                     cart_product_length !== 0 &&
-                    <Link to="" className='btn btn-danger ms-2 text-white'>Delete Cart</Link>
+                    <Link onClick={() => handleDeleteCart(cart_uncomplete?.id)} className='btn btn-danger ms-2 text-white'>Delete Cart</Link>
                 }
             </div>
 
@@ -120,14 +144,14 @@ const Cart = () => {
                                                 cart_uncomplete?.cartproducts.map((item, i) => {
                                                     return (
                                                         <tr key={i} className=''>
-                                                            <td>{i + 1}</td>
+                                                            <td className='align-middle'>{i + 1}</td>
                                                             <td>
                                                                 <Link to={`/product/${item.product[0].id}`}>
                                                                     <img height={60} width={60} src={`${domain}${item.product[0].image}`} alt="" />
                                                                 </Link>
 
                                                             </td>
-                                                            <td className='align-middle'>{item.price}</td>
+                                                            <td className='align-middle'>৳{item.price}</td>
                                                             <td className='align-middle'>
                                                                 <div className="flex flex-row align-items-center justify-content-center">
                                                                     <BiUpArrow onClick={() => addcartqty(item.id)} className='text-success cursor-pointer' />
@@ -136,7 +160,7 @@ const Cart = () => {
                                                                 </div>
 
                                                             </td>
-                                                            <td className='align-middle'>{item.subtotal}</td>
+                                                            <td className='align-middle'>৳{item.subtotal}</td>
                                                             <td className='align-middle'>
 
                                                                 <FaTrashAlt onClick={() => removecartproduct(item.id)} className='text-danger cursor-pointer' />
@@ -157,10 +181,10 @@ const Cart = () => {
                         </div>
                         <div className="col-md-4">
                             <div className="myshadow bg-white p-5">
-                                <p className='fs-5 fw-bolder'>Total : ${cart_uncomplete?.total}</p>
+                                <p className='fs-5 fw-bolder'>Total : ৳{cart_uncomplete?.total}</p>
                                 <p className='fs-5 fw-bolder'>Shipping : Free</p>
-                                <p className='fs-5 fw-bolder'>Grand Total : ${cart_uncomplete?.total}</p>
-                                <Link to="/order" className='btn btn-primary'>Order now</Link>
+                                <p className='fs-5 fw-bolder'>Grand Total : ৳{cart_uncomplete?.total}</p>
+                                <Link to="/order" className='btn btn-primary'>Checkout</Link>
 
                             </div>
                         </div>
