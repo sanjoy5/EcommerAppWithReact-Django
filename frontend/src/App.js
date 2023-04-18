@@ -40,6 +40,13 @@ function App() {
             profile: res.data.data
           })
         })
+          .catch(e => {
+            // console.log(e)
+            dispatch({
+              type: "ADD_PROFILE",
+              profile: null
+            })
+          })
       }
       getData()
     }
@@ -48,34 +55,38 @@ function App() {
 
 
   useEffect(() => {
-    const getCartData = async () => {
-      await axios({
-        method: 'get',
-        url: `${domain}/api/cart/`,
-        headers: header
-      }).then(res => {
-        // console.log(res.data, ': cart product@@');
-        {
-          const all_data = []
-          res?.data.map(data => {
-            if (data.complete) {
-              all_data.push(data)
-              dispatch({
-                type: 'CARTPRODUCT_COMPLETE',
-                cart_complete: all_data
-              })
-            } else {
-              dispatch({
-                type: 'CARTPRODUCT_UNCOMPLETE',
-                cart_uncomplete: data
-              })
-            }
-          })
-        }
-      })
 
+    if (profile !== null) {
+      const getCartData = async () => {
+        await axios({
+          method: 'get',
+          url: `${domain}/api/cart/`,
+          headers: header
+        }).then(res => {
+          // console.log(res.data, ': cart product@@');
+          {
+            const all_data = []
+            res?.data.map(data => {
+              if (data.complete) {
+                all_data.push(data)
+                dispatch({
+                  type: 'CARTPRODUCT_COMPLETE',
+                  cart_complete: all_data
+                })
+              } else {
+                dispatch({
+                  type: 'CARTPRODUCT_UNCOMPLETE',
+                  cart_uncomplete: data
+                })
+              }
+            })
+          }
+        })
+
+      }
+      getCartData()
     }
-    getCartData()
+
   }, [pagereload])
 
 

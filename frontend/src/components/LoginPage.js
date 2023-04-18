@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { domain } from '../env'
+import { domain, header2 } from '../env'
 
 
 const LoginPage = () => {
@@ -14,6 +14,7 @@ const LoginPage = () => {
         await axios({
             method: 'post',
             url: `${domain}/api/login/`,
+            headers: header2,
             data: {
                 'username': username,
                 'password': password

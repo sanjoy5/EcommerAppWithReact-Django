@@ -51,7 +51,7 @@ const Header = () => {
         <>
             <nav className="navbar navbar-expand-lg bg-primary">
                 <div className="container">
-                    <Link to='/' className='navbar-brand fs-4 fw-semibold text-white'><img src="shopping.png" className='me-1' height='35px' alt="" /> RDShop</Link>
+                    <Link to='/' className='navbar-brand fs-4 fw-semibold text-white'><img src="https://i.ibb.co/c1sRkdN/shopping.png" className='me-1' height='35px' alt="" /> RDShop</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -115,7 +115,7 @@ const Header = () => {
                                     <>
                                         <li className="nav-item">
                                             <Link to="/login">
-                                                <img src="user.png" className='me-2' height="45px" width="45px" style={{ borderRadius: "50%" }} alt="" />
+                                                <img src="https://i.ibb.co/mHGwW1K/userprofile.png" className='me-2' height="45px" width="45px" style={{ borderRadius: "50%" }} alt="" />
                                             </Link>
                                         </li>
                                         <li className="nav-item">

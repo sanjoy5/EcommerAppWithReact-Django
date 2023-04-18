@@ -7,7 +7,7 @@ const HeroSection = () => {
             <Carousel.Item>
                 <img
                     className="d-block w-100 ban_img"
-                    src="ban2.jpg"
+                    src="https://i.ibb.co/rtWhDgN/ban2.jpg"
                     alt="First slide"
 
                 />
@@ -16,7 +16,7 @@ const HeroSection = () => {
             <Carousel.Item>
                 <img
                     className="d-block w-100 ban_img"
-                    src="ban3.jpg"
+                    src="https://i.ibb.co/wBJVLWQ/ban3.jpg"
                     alt="Second slide"
 
                 />
@@ -25,7 +25,7 @@ const HeroSection = () => {
             <Carousel.Item>
                 <img
                     className="d-block w-100 ban_img"
-                    src="ban1.png"
+                    src="https://i.ibb.co/7XS6LFL/ban1.png"
                     alt="Third slide"
 
                 />

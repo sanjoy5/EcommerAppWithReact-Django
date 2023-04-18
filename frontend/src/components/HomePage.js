@@ -39,7 +39,9 @@ const HomePage = () => {
             <HeroSection />
 
 
-            <div className='container my-4'>
+            <div className='container my-5'>
+
+                <h2 className="fs-4xl fw-bold text-center mt-5 mb-3 text-dark">Features Products</h2>
 
                 <div className="row">
                     {

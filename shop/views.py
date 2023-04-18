@@ -293,3 +293,12 @@ class DeleteCart(views.APIView):
             response_mesage = {'error':True,'message':"Something is wrond. Cart is not Deleted"}
         return Response(response_mesage)
 
+
+
+class RegisterView(views.APIView):
+    def post(self,request):
+        serializers = UserSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response({"error":False,"message":f"User is created for '{serializers.data['username']}'"})
+        return Response({"error":True,"message":"Something is Wrong"})

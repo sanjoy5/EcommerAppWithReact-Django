@@ -81,8 +81,7 @@ const ProductsDetails = () => {
                                     <option value="l">L</option>
                                 </select>
 
-                                <div className="d-flex align-items-center my-2">
-                                    <input type="number" style={{ width: '80px' }} min="1" className="py-2 outline-none px-3" />
+                                <div className="my-2">
                                     <button onClick={() => addtocart(product.id)} className="btn btn-primary btn-lg ms-2">Add to Cart</button>
                                 </div>
 

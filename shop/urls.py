@@ -20,4 +20,5 @@ urlpatterns = [
     path('removecartqty/', RemoveCartQty.as_view(),name="removecartqty"),
     path('removecartproduct/', RemoveCartProduct.as_view(),name="removecartproduct"),
     path('deletecart/',DeleteCart.as_view(),name='deletecart'),
+    path('register/',RegisterView.as_view(),name='register'),
 ]
