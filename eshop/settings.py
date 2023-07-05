@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-v-8klt7x)=3c+%-h=a^$u=!i9gppxb!redyul2tja4y=qoom1n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -80,12 +80,25 @@ WSGI_APPLICATION = 'eshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':  'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'ytUP94duo1UZ7pIqHmNt',
+        'HOST': 'containers-us-west-118.railway.app',
+        'PORT': '6733',
     }
 }
+
 
 
 # Password validation
