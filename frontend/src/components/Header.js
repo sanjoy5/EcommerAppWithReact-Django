@@ -75,16 +75,15 @@ const Header = () => {
                             {
                                 profile !== null ?
                                     <>
-                                        <li className="nav-item">
+                                        {/* <li className="nav-item">
                                             <Link to="/profile">
                                                 <img src={`${domain}${profile?.image}`} className='me-1' height="45px" width="45px" style={{ borderRadius: "50%" }} alt="" />
                                             </Link>
-                                        </li>
+                                        </li> */}
                                         <li className="nav-item dropdown">
                                             <Link className="nav-link dropdown-toggle text-white" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <p className="m-0 lh-sm" style={{ fontSize: '14px' }}>Welcome</p>
                                                 {
-                                                    profile?.prouser.first_name && profile?.prouser.last_name !== '' ? `${profile?.prouser.first_name} ${profile?.prouser.last_name}` : `${profile?.prouser.username}`
+                                                    profile?.prouser?.first_name && profile?.prouser?.last_name !== '' ? `${profile?.prouser?.first_name} ${profile?.prouser?.last_name}` : `${profile?.prouser?.username}`
                                                 }
 
                                             </Link>

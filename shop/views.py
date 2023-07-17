@@ -71,22 +71,23 @@ class UpdateUserView(views.APIView):
             res_msg = {"error":True,"message":"Something is wrong!!! User data is not updated."}      
         return Response(res_msg)
     
+    
 
 class UpdateUserImageView(views.APIView):
-    authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsAuthenticated,]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-    def post(self,request):
+    def post(self, request):
         try:
             user = request.user
             query = Profile.objects.get(prouser=user)
             data = request.data
-            serializers = ProfileSerializer(query,data=data,context={"request":request})
-            serializers.is_valid()
-            serializers.save()
-            res_msg = {"error":False,"message":"User Image is updated."}
+            serializer = ProfileSerializer(query, data=data, context={"request": request})
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            res_msg = {"error": False, "message": "User image has been updated."}
         except:
-            res_msg = {"error":True,"message":"Something is wrong!!! User image is not updated."}      
+            res_msg = {"error": True, "message": "Something went wrong. User image could not be updated."}
         return Response(res_msg)
     
 

@@ -44,6 +44,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         response =  super().to_representation(instance)
         response['prouser'] = UserSerializer(instance.prouser).data
         return response
+    
 
 
 class CartSerializer(serializers.ModelSerializer):
